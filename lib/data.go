@@ -27,10 +27,19 @@ func LoadDataFromCSV(path string) ([]DataPoint, error) {
 		if err != nil {
 			return nil, err
 		}
-		total, err := strconv.ParseFloat(row[1], 64)
+
+		pull, err := strconv.ParseFloat(row[4], 64)
 		if err != nil {
 			return nil, err
 		}
+		dip, err := strconv.ParseFloat(row[5], 64)
+		if err != nil {
+			return nil, err
+		}
+
+		// 2-lift Total = Pull + Dip
+		total := pull + dip
+
 		data = append(data, DataPoint{
 			BodyWeight: bw,
 			Total:      total,

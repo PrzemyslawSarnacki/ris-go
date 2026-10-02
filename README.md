@@ -2,7 +2,42 @@
 [![Built with Mage](https://magefile.org/badge.svg)](https://magefile.org)
 
 
-# ris-go – Relative Index for Streetlifting
+# ris-go – Relative Index for Streetlifting Classic
+
+This is modification of the ris-go library to use it with SL Classic competitions. Main modification is calculation of Classic total instead of All4 and adding constraints to the existing model so it matches Classic needs. Heavier athletes lift more absolute weight, but strength doesn't scale linearly with bodyweight. With SL Classic athletes lift less overall weight without Squats and Muscle-ups, so we recalibrated the target benchmark down from ~600 kg totals to ~240 kg totals but The curve remains intact. Below are calculated parameters as of date 2nd October 2026: 
+```
+=== 2-LIFT STREETLIFTING PARAMETERS ===
+
+MALE PARAMETERS:
+A: 111.00000
+K: 237.05671
+B: 0.12507
+v: 70.24735
+Q: 0.36688
+RMSE: 23.14 kg
+
+FEMALE PARAMETERS:
+A: 45.00000
+K: 96.00000
+B: 0.11089
+v: 81.38343
+Q: 0.01361
+RMSE: 12.45 kg
+```
+
+Male Classic Excel Formula
+Put A2 = Bodyweight (kg) and B2 = Pull-up + Dip Total (kg):
+
+```
+=B2*100/(111 + (237.05671 - 111)/(1 + 0.36688*EXP(-0.12507*(A2 - 70.24735))))
+```
+
+Female Classic Excel Formula
+Put A2 = Bodyweight (kg) and B2 = Pull-up + Dip Total (kg):
+
+```
+=B2*100/(45 + (96 - 45)/(1 + 0.01361*EXP(-0.11089*(A2 - 81.38343))))
+```
 
 **ris-go** is a Go library for calculating the *Relative Index for Streetlifting (RIS)*. The library allows the calculation of the RIS value based on individual strength levels and body weight, and it provides a method for determining the parameters of the underlying mathematical model based on real sports data.
 
